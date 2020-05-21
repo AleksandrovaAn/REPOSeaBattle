@@ -163,6 +163,24 @@ window.onload = function () {
     return true;
 }
 
+Field.prototype.cleanField = function() {
+    // создаём объект игрового поля, на котором должны быть удалены корабли
+var parent	= this.field,
+    // получаем значение атрибута 'id', которое понадобится для дальнейшей
+    // DOM-навигации
+    id		= parent.getAttribute('id'),
+    // получаем коллекцию все кораблей, которые нужно удалить
+    divs 	= document.querySelectorAll('#' + id + ' > div');
+
+// перебираем в цикле полученную коллекцию и удаляем входящие в неё корабли
+[].forEach.call(divs, function(el) {
+    parent.removeChild(el);
+});
+// очищаем массив объектов кораблей
+this.squadron.length = 0;
+}
+
+
   window.onload = function () {
     /* variables
     shipSide	- размер палубы
