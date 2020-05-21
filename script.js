@@ -83,6 +83,41 @@ window.onload = function() {
 					ship.createShip();
 			}
 		}
+    }
+    
+    Field.prototype.getCoordinatesDecks = function(decks) {
+		// получаем коэфициенты определяющие направление расположения корабля
+		// kx == 0 и ky == 1 — корабль расположен горизонтально,
+		// kx == 1 и ky == 0 - вертикально.
+		var kx = getRandom(1),
+			ky = (kx == 0) ? 1 : 0,
+			x, y;
+		// в зависимости от направления расположения, генерируем
+		// начальные координаты
+		if (kx == 0) {
+			x = getRandom(9);
+			y = getRandom(10 - decks);
+		} else {
+			x = getRandom(10 - decks);
+			y = getRandom(9);
+		}
+
+		// проверяем валидность координат всех палуб корабля:
+		// нет ли в полученных координатах или соседних клетках ранее
+		// созданных кораблей
+		var result = this.checkLocationShip(x, y, kx, ky, decks);
+		// если координаты невалидны, снова запускаем функцию
+		if (!result) return this.getCoordinatesDecks(decks);
+
+		// создаём объект, свойствами которого будут начальные координаты и
+		// коэфициенты определяющие направления палуб
+		var obj = {
+			x: x,
+			y: y,
+			kx: kx,
+			ky: ky
+		};
+		return obj;
 	}
 
 }
