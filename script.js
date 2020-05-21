@@ -25,4 +25,23 @@ window.onload = function () {
   // с помощью конструктора создаём объект user, за его основу взято поле игрока
   var user = new Field(getElement('field_user'));
 
+  function Ships(player, fc) {
+    // на каком поле создаётся данный корабль
+    this.player = player;
+    // уникальное имя корабля
+    this.shipname = fc.shipname;
+    //количество палуб
+    this.decks = fc.decks;
+    // координата X первой палубы
+    this.x0 = fc.x;
+    // координата Y первой палубы
+    this.y0 = fc.y;
+    // направлении расположения палуб
+    this.kx = fc.kx;
+    this.ky = fc.ky;
+    // счётчик попаданий
+    this.hits = 0;
+    // массив с координатами палуб корабля
+    this.matrix = [];
+  }
 }
