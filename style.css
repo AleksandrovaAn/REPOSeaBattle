@@ -39,7 +39,7 @@ body,
 .ship,
 .icon-field,
 .btn-play {
-  background: url('seabattle/sprite.png') no-repeat;
+  background: url('img/sprite.png') no-repeat;
 }
 
 /* typography */
@@ -98,7 +98,7 @@ p {
   height: 530px;
   position: relative;
   margin: 0 auto;
-  background: url('seabattle/grid.png') repeat;
+  background: url('img/grid.png') repeat;
 }
 
 .text-top {
@@ -123,7 +123,7 @@ p {
   width: 366px;
   height: 363px;
   position: relative;
-  background: url('seabattle/bg_play_field.png') no-repeat;
+  background: url('img/bg_play_field.png') no-repeat;
 }
 
 .field-user {
