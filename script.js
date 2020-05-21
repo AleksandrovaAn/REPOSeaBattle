@@ -102,4 +102,39 @@ window.onload = function () {
     player.field.appendChild(div);
   }
 
+  function Instance() {
+    this.pressed = false;
+  }
+
+  Instance.prototype.setObserver = function () {
+    // поле для кораблей игрока
+    var fieldUser = getElement('field_user'),
+      // контейнер, в котором изначально находятся корабли
+      initialShips = getElement('ships_collection');
+
+    // нажатие на левую кнопку мышки
+    fieldUser.addEventListener('mousedown', this.onMouseDown.bind(this));
+    // нажатие на правую кнопку мышки
+    fieldUser.addEventListener('contextmenu', this.rotationShip.bind(this));
+    // нажатие на левую кнопку мышки
+    initialShips.addEventListener('mousedown', this.onMouseDown.bind(this));
+    // перемещение мышки с нажатой кнопкой
+    document.addEventListener('mousemove', this.onMouseMove.bind(this));
+    // отпускание левой кнопки мышки
+    document.addEventListener('mouseup', this.onMouseUp.bind(this));
+  }
+
 }
+
+// полифил для IE closest
+;
+(function (ELEMENT) {
+  ELEMENT.matches = ELEMENT.matches || ELEMENT.mozMatchesSelector || ELEMENT.msMatchesSelector || ELEMENT.oMatchesSelector || ELEMENT.webkitMatchesSelector;
+  ELEMENT.closest = ELEMENT.closest || function closest(selector) {
+    if (!this) return null;
+    if (this.matches(selector)) return this;
+    if (!this.parentElement) {
+      return null
+    } else return this.parentElement.closest(selector)
+  };
+}(Element.prototype));
