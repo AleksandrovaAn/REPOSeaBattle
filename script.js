@@ -364,4 +364,56 @@ this.squadron.length = 0;
     } else return this.parentElement.closest(selector)
   };
 }(Element.prototype));
->>>>>>> Sea
+
+getElement('type_placement').addEventListener('click', function(e) {
+    // используем делегирование основанное на всплытии событий
+    var el = e.target;
+    if (el.tagName != 'SPAN') return;
+
+    // получаем объект в котором находится коллекция кораблей
+    // для перетаскивания
+    var shipsCollection = getElement('ships_collection');
+    // если мы уже создали эскадру ранее, то видна кнопка начала игры
+    // скроем её на время расстановки кораблей новой эскадры
+    getElement('play').setAttribute('data-hidden', true);
+    // очищаем матрицу
+    user.cleanField();
+
+    var type = el.getAttribute('data-target'),
+        // создаём литеральный объект typeGeneration
+        // каждому свойству литерального объекта соотвествует анонимная функция
+        // в которой вызывается рандомная или ручная расстановка кораблей
+        typeGeneration = {
+            'random': function() {
+                // если мы хотели самостоятельно расставить корабли, а потом решили
+                // сделать это рандомно, то скрываем корабали для перетаскивания
+                shipsCollection.setAttribute('data-hidden', true);
+                user.randomLocationShips();
+            },
+            'manually': function() {
+                // создаём двумерный массив, в который будем записывать полученные координаты
+                // палуб кораблей, а в дальнейшем, координаты выстрелов компьютера, попаданий
+                // и клеток игрового поля, где кораблей точно быть не может
+                user.matrix = createMatrix();
+
+                // проверяем, видна ли первоначальная дислокация кораблей
+                // используя данное условие, мы можем при повторных клика
+                // на псевдо-ссылку Самостоятельно с чистого листа
+                // показывать / скрывать первоначальную дислокацию
+                if (shipsCollection.getAttribute('data-hidden') === 'true') {
+                    // показываем объект
+                    shipsCollection.setAttribute('data-hidden', false);
+                    // создаём экземпляр объекта с помощью конструктора Instance
+                    var instance = new Instance();
+                    // и устанавливаем обработчики событий мыши
+                    instance.setObserver();
+                } else {
+                    // скрываем объект
+                    shipsCollection.setAttribute('data-hidden', true);
+                }
+            }
+        };
+    // вызов анонимной функции литерального объекта в зависимости
+    // от значения атрибута 'data-target'
+    typeGeneration[type]();
+});
